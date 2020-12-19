@@ -19,33 +19,20 @@ function onAdd() {
     input.value = '';
     input.focus();
 }
-
+let id = 0; //UUID유니크 아이디
 function createItem(text) {
     const itemRow = document.createElement('li');   //li태그 만들기
     itemRow.setAttribute('class', 'item__row'); //클래스 지정
-
-    const item = document.createElement('div');   //li태그 만들기
-    item.setAttribute('class', 'item'); //클래스 지정
-
-    const name = document.createElement('span');
-    name.setAttribute('class', 'item__name');
-    name.innerText = text;
-
-    const deleteBtn = document.createElement('button');
-    deleteBtn.setAttribute('class','item__delete');
-    deleteBtn.innerHTML = '<i class="fas fa-trash-alt"></i>';
-    deleteBtn.addEventListener('click', () => {
-        items.removeChild(itemRow);
-    })
-
-    const itemDivider = document.createElement('div');
-    itemDivider.setAttribute('class', 'item__divider');
-
-    item.appendChild(name);
-    item.appendChild(deleteBtn);
-
-    itemRow.appendChild(item);
-    itemRow.appendChild(itemDivider);
+    itemRow.setAttribute('data-id', id);
+    itemRow.innerHTML = `
+        <div class="item" >
+            <span class="item__name">${text}</span>
+                <button class="item__delete">
+                    <i class="fas fa-trash-alt" data-id=${id}></i>
+                </button>
+        </div>
+    <div class="item__divider"></div>`;
+    id++;    //아이템이 하나 만들어질때마다 증가함 ....
     return itemRow;
 }
 
@@ -57,5 +44,17 @@ addBtn.addEventListener('click', () => {
 input.addEventListener('keypress', (event) =>{
     if(event.key === 'Enter') {
         onAdd();
+    }
+})
+
+items.addEventListener('click', event => {
+    // if(event.target.nodeName === 'I')
+    //클릭한 태그만 불러옴 
+    const id = event.target.dataset.id;
+    if(event.target.dataset.id){
+        const toBeDeleted = document.querySelector(`.item[data-id="${id}"]`);
+        //dataset을 사용해서 고유번호에(id) 맞는것을 찾아주고
+        toBeDeleted.remove();
+        //지워준다
     }
 })
