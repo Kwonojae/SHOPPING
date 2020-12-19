@@ -23,7 +23,7 @@ let id = 0; //UUID유니크 아이디
 function createItem(text) {
     const itemRow = document.createElement('li');   //li태그 만들기
     itemRow.setAttribute('class', 'item__row'); //클래스 지정
-    itemRow.setAttribute('data-id', id);
+    itemRow.setAttribute('data-id', id); //li태그에 data-id 를 넣어줘서 고유번호를 지정해줌
     itemRow.innerHTML = `
         <div class="item" >
             <span class="item__name">${text}</span>
@@ -52,7 +52,7 @@ items.addEventListener('click', event => {
     //클릭한 태그만 불러옴 
     const id = event.target.dataset.id;
     if(event.target.dataset.id){
-        const toBeDeleted = document.querySelector(`.item[data-id="${id}"]`);
+        const toBeDeleted = document.querySelector(`.item__row[data-id="${id}"]`);
         //dataset을 사용해서 고유번호에(id) 맞는것을 찾아주고
         toBeDeleted.remove();
         //지워준다
